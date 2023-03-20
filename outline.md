@@ -92,15 +92,17 @@ S1 --> S2
 S2 --> S1
 ```
 
-
 ### 固定缓冲
-设定一个固定且足够大的缓冲区实现消抖
+设定一个固定且足够大的缓冲区实现消抖，设置固定prefetching缓冲区。
 
 ### 自适应缓冲
 如何估计网络抖动
 发送端固定间隔发送 -- 计算接收端抖动 -- 设置缓冲区大小
 
-接收端统计前100个报文的最大接收间隔，作为prefetching缓冲区。  
+接收端统计前100个报文的最大接收间隔，作为prefetching缓冲区。 
+
+需提前配置最大prefetching缓冲区和最小prefetching缓冲区。
+
 
 ## 回声消除
 ### 声学回声形成和影响
@@ -133,6 +135,8 @@ $db=10log(\frac{声音能量值}{参考声音能量值})$
 当jitterbuffer缓存大于某值的时候加速播放
 当jitterbuffer缓冲小于某值的时候减速播放
 
+
+
 ## WEB实时语音总体软件架构介绍
 WEB实时语音总体功能结构图
 
@@ -146,13 +150,23 @@ O2-->F
 ```
 
 ### 音频采集播放
-
+web音频采集和播放接口介绍
 ### jitterbuffer实现
 ### 音频编解码
+opus编码库的使用
 ### 音频重采样
+重采样库的实现
 ### 回声消除实现
-### 音频混音
 
+### 音频混音
+```mermaid
+%% 音频混音时序图
+sequenceDiagram
+App->>AudioMixer :clear()
+App->>AudioMixer :feedAudio()
+App->> + AudioMixer :audioMixerProcessor()
+AudioMixer -->> - App :return
+```
 
 ## WEB实时语音服务端实现
 ### 基础信令实现
