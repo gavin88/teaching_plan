@@ -129,13 +129,13 @@ $db=10log(\frac{声音能量值}{参考声音能量值})$
  通过webassembley的方式对webrtc AGC模块进行编译。实现在浏览器的调用和使用。
 
 ## 如何实现延迟控制
-#### 如何实现低延迟缓冲
+### 如何实现低延迟缓冲
 通过jitterbuffer根据网络情况实现缓冲区自适应调整，实现当前网络情况下的低延迟缓冲。
-#### 什么时候加减速播放
-当jitterbuffer缓存大于某值的时候加速播放
+### 什么时候加减速播放
+当jitterbuffer缓存大于某值的时候加速播放(预设一个配置值 需要大于最大prefeching)
+
 当jitterbuffer缓冲小于某值的时候减速播放
-
-
+小于prefeching的时候减速播放
 
 ## WEB实时语音总体软件架构介绍
 WEB实时语音总体功能结构图
@@ -152,10 +152,15 @@ O2-->F
 ### 音频采集播放
 web音频采集和播放接口介绍
 ### jitterbuffer实现
+
+js实现缓冲队列
+
 ### 音频编解码
 opus编码库的使用
 ### 音频重采样
 重采样库的实现
+
+
 ### 回声消除实现
 
 ### 音频混音
@@ -173,12 +178,22 @@ AudioMixer -->> - App :return
 #### 连接
 socket.io 连接
 #### 登入
-实时语音接入
+实现语音接入
 #### 断开
-实时语音断开
+实现语音断开
 
 ### 音频数据转发实现
 无脑向发送端外的其他客户端转发。
+
+```mermaid
+graph LR
+Client1[客户端A]-->Server[服务端]
+Client2[客户端B]-->Server[服务端]
+Client3[客户端C]-->Server[服务端]
+Server --> Client1
+Server --> Client2
+Server --> Client3
+```
 
 ## 如何接入其他音视频服务器
 ### SRS简单介绍
@@ -186,7 +201,6 @@ SRS(Simple Realtime Server)是一个简单高效的实时视频服务器，支�
 
 ### 通过FFMPEG转发
 - 如何通过ffmepg将音频数据转发到srs服务器实现对外直播 -- 通过pipe向ffmpeg 进程发送音频数据，ffmpeg 通过RTMP协议推送到SRS服务器。
-
-
-
-
+```
+ffmpeg -f f32le -ar 16k -ac 1 -i - -vn -c:a aac -ar 44100 -f flv -y url
+```
