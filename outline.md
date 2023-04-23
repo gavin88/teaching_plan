@@ -142,11 +142,11 @@ WEB实时语音总体功能结构图
 
 ```mermaid
 graph LR
-A[MIC]-->B[采集]-->C[AEC]-->D[编码] --> E[发送]
-H[接收]-->I[jitterbuffer]-->J[延迟控制]-->K[NC]-->O[AGC]-->F[混音] --> G[播放] 
+A[MIC]-->B[采集]-->C[AEC]-->O[AGC]-->D[编码] --> E[发送]
+H[接收]-->I[jitterbuffer]-->J[延迟控制]-->K[NC]-->F[混音] --> G[播放] 
 F-->C
-H2[接收]-->I2[jitterbuffer]-->J2[延迟控制]-->K2[NC]-->O2[AGC]
-O2-->F
+H2[接收]-->I2[jitterbuffer]-->J2[延迟控制]-->K2[NC]
+K2-->F
 ```
 
 ### 音频采集播放
